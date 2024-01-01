@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: unittest
+# --
+
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ArbitrationServiceTest {
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void sendDeleteRequest() {
+    }
+
+    @Test
+    void sendUpdateRequest() {
+    }
+}
