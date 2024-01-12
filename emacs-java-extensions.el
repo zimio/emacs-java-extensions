@@ -13,8 +13,7 @@
          ;;(test-path (eje--find-test-path class-name (eje--get-package)))
          (test-path "/home/jlagrang/pruba.java")
          (snippet (yas-lookup-snippet "unittest" 'java-ts-mode))
-         (public-methods (eje--get-public-methods))
-         )
+         (public-methods (eje--get-public-methods)))
     ;; create file - or just switch to buffer without saving
     ;; switch to buffer
     (if (eje--test-class? class-name)
@@ -23,12 +22,10 @@
              (yas-expand-snippet snippet
                                  (point-min)
                                  (point-max)
-                                 '( (yas-indent-line 'fixed)
-                                    (yas-java-test-methods public-methods)
-                                    (yas-java-package package)
-                                    (yas-java-class class-name)))))
-    )
-  )
+                                 '((yas-indent-line 'fixed)
+                                   (yas-java-test-methods public-methods)
+                                   (yas-java-package package)
+                                   (yas-java-class class-name)))))))
 
 ;; TODO
 (defun eje--find-test-path (class-name package)
@@ -72,3 +69,6 @@
 (defun eje--has-test-in-string? (s)
   "Return t if string contains test."
   (when (cl-search "test" (downcase s)) t))
+
+
+(provide 'emacs-java-extensions)
