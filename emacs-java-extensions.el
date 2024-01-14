@@ -1,17 +1,11 @@
-;; Example exanded env
-;; ((yas-indent-line 'fixed) (yas-java-test-methods '("void testa()" "void testb()" "void testc()")))
 
 ;; Only works in java-ts-mode
-
-;; TODO Create a yasnippet for the tests
-;; use yas-expand-snippet
 
 (defun eje-create-test-for-class ()
   (interactive)
   (let* ((class-name (eje--get-class-name))
          (package (eje--get-package))
-         ;;(test-path (eje--find-test-path class-name (eje--get-package)))
-         (test-path "/home/jlagrang/pruba.java")
+         (test-path (eje--find-test-path class-name (eje--get-package)))
          (snippet (yas-lookup-snippet "unittest" 'java-ts-mode))
          (public-methods (eje--get-public-methods)))
     ;; create file - or just switch to buffer without saving
@@ -27,10 +21,16 @@
                                    (yas-java-package package)
                                    (yas-java-class class-name)))))))
 
-;; TODO
 (defun eje--find-test-path (class-name package)
   "Given a string representing a java class-name package, return the path for testing that class."
-  )
+  (if (cl-search "src" test-class-path)
+      (concat (car (split-string buffer-file-name "src"))
+              "src/test/java/"
+              (subst-char-in-string ?. ?/ package)
+              "/"
+              class-name
+              ".java")
+      (error "Couldn't find source path")))
 
 (defun eje--get-public-methods  ()
   (let* ((root-node (treesit-buffer-root-node))
@@ -68,7 +68,7 @@
 
 (defun eje--has-test-in-string? (s)
   "Return t if string contains test."
-  (when (cl-search "test" (downcase s)) t))
+  (when (cl-search "src/test" (downcase s)) t))
 
 
 (provide 'emacs-java-extensions)

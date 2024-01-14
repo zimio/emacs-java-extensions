@@ -1,25 +1,28 @@
-# -*- mode: snippet -*-
+# key: nil
 # name: unittest
 # --
-
-
+package `yas-java-package`;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArbitrationServiceTest {
+class `yas-java-class` {
 
     @BeforeEach
     void setUp() {
     }
 
-    @Test
-    void sendDeleteRequest() {
-    }
+  `(dolist (method yas-java-test-methods)
+   (insert "@Test")
+   (newline-and-indent)
+   (insert "void ")
+   (insert method)
+   (insert "() {\n")
+   (insert "}")
+   (newline-and-indent)
+   (newline-and-indent)
+   (indent-region (point-min) (point-max) nil))`
 
-    @Test
-    void sendUpdateRequest() {
-    }
 }
