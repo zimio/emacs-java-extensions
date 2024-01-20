@@ -20,17 +20,32 @@
                                    (yas-java-test-methods public-methods)
                                    (yas-java-package package)
                                    (yas-java-class class-name)))))))
+(defun eje-go-to-test-class ()
+  (interactive)
+  (let* ((class-name (eje--get-class-name))
+         (package (eje--get-package))
+         (test-path (eje--find-test-path class-name (eje--get-package))))
+    (find-file (eje--add-wildcard-path test-path) t)))
+
+(defun eje--add-wildcard-path (test-path)
+  (let ((split-path (split-string test-path "/")))
+    (concat
+        (string-join (butlast split-path) "/")
+        "/*"
+        (car (split-string (car (last split-path)) "\\."))
+        "*"
+        ".java")))
 
 (defun eje--find-test-path (class-name package)
   "Given a string representing a java class-name package, return the path for testing that class."
-  (if (cl-search "src" test-class-path)
+  (if (cl-search "src" buffer-file-name)
       (concat (car (split-string buffer-file-name "src"))
               "src/test/java/"
               (subst-char-in-string ?. ?/ package)
               "/"
               class-name
               ".java")
-      (error "Couldn't find source path")))
+    (error "Couldn't find source path")))
 
 (defun eje--get-public-methods  ()
   (let* ((root-node (treesit-buffer-root-node))
